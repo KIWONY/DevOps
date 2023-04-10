@@ -1,0 +1,1 @@
+I have deployed a backend using FastAPI + Nginx on ECS Fargate. I have one NAT gateway and two availability zones.
