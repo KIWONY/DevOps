@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    tools {
+        nodejs "node18.7.0"
+        git "git"
+    }
+    stages {
+        stage('prepare') {
+            steps {
+                // github  레포지토리 클론
+                git branch: "main", credentialsId: "<GITHUB ACCOUNT ID specified by Jenkins Credentials>", url: "<GITHUB URL>"
+                sh  'ls -al'
+            }
+        }
+        stage('build') {
+            steps {
+                    // 프론트엔드 코드 빌드 
+                    dir('loocus-integration-front'){
+                        sh "ls -al"
+                        // npm version 확인 
+                        sh "npm -v"     
+                        // cache 삭제 (이유없이 빌드가 안 되는 이유가 발생했을 떄 캐시삭제 후 진행하니 해결됨)
+                        sh "npm cache clean --force"   
+                        // 패키지 의존 방식을 사용하여 패키지 설치
+                        sh "npm install source-map-resolve --legacy-peer-deps"   
+                        // CI를 false로 설정하여 디버깅하기, 로컬 환경과 동일한 방식으로 스크립트 실행하기 
+                        sh "CI=false npm run build"
+                        sh "ls -al"
+                }
+            }
+        }
+        stage('copy robots.txt') {
+            // robots.txt의 내용을 빌드한 디렉토리에 있는 robots.txt에 복사 
+            steps {
+                sh 'ls -al'
+                sh "cp -r robots.txt ./build/"
+                echo "copy"
+            }
+        }
+        stage('deploy') {
+            steps {
+                    withCredentials([aws(accessKeyVariable: '<AWS ACCESS KEY ID>', credentialsId: '<AWS JENKINS KEY ID specified by Jenkins Credentials>', secretKeyVariable: '<AWS SECRET ACCESS KEY' )]){
+                        sh 'ls -al'
+                        // 로컬 디렉토리와 s3 버킷에 간 동기화
+                        sh "aws s3 sync ./build s3://<Bucket path> --delete"
+                        // cloudfront에서 모든 경로에 있는 캐시 삭제(캐시 무효화)
+                        sh 'aws cloudfront create-invalidation --distribution-id <CLOUDFRONT DISTRIBUTION ID> --paths "/*"'
+                        echo 'deploy done.'
+                    }
+                }
+        }
+    }
+}
