@@ -7,8 +7,9 @@ FROM nginx:1.16.1-alpine
 # nginx의 전반적인 설정을 관리, 지금 내가 작성한 ./nginx/nginx.conf 파일을 복사하여 주요동작을 구성한 것이다.
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf       
 
-# nginx의 80번 포트로만 통신
+# 80번 포트만 개방 (expose : 주로 외부에서 컨테이너에 접속할 수 있도록 포트를 개방할 때)
 # 로드밸런서로 들어온 트래픽은 타겟그룹을 80으로 두고, ecs에 있는 nginx로 흘러들어가도록 함.
+# 컨테이너 실행 시 호스트와 컨테이너 간 포트 매핑으로 외부에서 접속 가능하도록 함.
 EXPOSE 80 
 
 CMD ["nginx", "-g", "daemon off;"]
