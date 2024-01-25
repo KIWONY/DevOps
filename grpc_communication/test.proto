@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package testworld;
+
+// 서비스 정의 
+// TestRequest를 입력으로 받고, TestReply를 반환
+service TestGrpc {
+    rpc Test (TestRequest) returns (TestReply) {}
+}
+
+// 입력 메세지 타입 정의 
+message TestRequest {
+    string request_message = 1;
+}
+// 반환 메세지 타입 정의 
+message TestReply {
+    string response_message = 1;
+}
