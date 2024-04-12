@@ -2,3 +2,10 @@
 .terraform.lock.hcl
 .terraform
 terraform.tfstate.backup
+terraform.tfstate
+/grpc_communication/venv
+/grpc_communication/__pycache__
+/grpc_communication/.idea
+/grpc_server_image/__pycache__
+/grpc_server_image/venv
+/grpc_server_image/.idea
