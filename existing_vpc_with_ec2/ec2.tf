@@ -4,7 +4,7 @@ provider "aws" {
     secret_key = "<SECRET KEY>"
 }
 
-resource "aws_instance" "vision_test_server" {
+resource "aws_instance" "test_server" {
     ami           = "<ami ID>"
     instance_type = "t3.small"
     vpc_security_group_ids = ["<security group ID"]
@@ -17,4 +17,3 @@ resource "aws_instance" "vision_test_server" {
       Name = "test-server"
   }
 }
-
