@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package love;
+
+message Input{
+    bytes approach = 1;
+}
+
+message Output{
+    bytes acceptance = 1;
+}
+
+service LoveGrpc {
+    rpc Love(Input) returns (Output);
+}
