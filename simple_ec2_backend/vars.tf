@@ -5,5 +5,5 @@ variable "AWS_REGION" {
 }
 
 variable "PRIVATE_KEY" {
-    default = "line_server_download_key"
+    default = "line_server_download_key.pem"
 }

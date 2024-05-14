@@ -11,7 +11,7 @@ resource "aws_security_group" "ssh_sg_group" {
     egress {
         from_port = 0
         to_port = 0
-        protocol = "-1"             // 특정 프로토콜 지정 안 함 
+        protocol = "-1"             // 특정 프로토콜 지정 안함 
         cidr_blocks = ["0.0.0.0/0"]             
     }
 }
