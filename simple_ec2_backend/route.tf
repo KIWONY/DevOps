@@ -1,6 +1,6 @@
 resource "aws_route" "public_route" {
   route_table_id = aws_route_table.terraform_public_route.id
-  destination_cidr_block = "0.0.0.0/0"
+  destination_cidr_block = "0.0.0.0/0"    // 나가는 블럭 
   gateway_id = aws_internet_gateway.line_gateway.id
 }
 
