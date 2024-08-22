@@ -6,13 +6,12 @@ RUN apt-get update && \
 
 WORKDIR /server
 
-COPY . .
+COPY image_grpc_server .
 
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /server/requirements.txt
-
-RUN python -m grpc.tools.protoc --proto_path=./ --python_out=./ --grpc_python_out=./ love.proto
-
-EXPOSE 6000
+RUN python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. love.proto
 
 CMD ["/bin/bash"]
+
+EXPOSE 6000

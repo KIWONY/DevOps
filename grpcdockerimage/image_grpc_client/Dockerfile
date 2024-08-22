@@ -8,9 +8,9 @@ RUN apt-get update && \
 # yes
 WORKDIR /client
 
-COPY . .
+COPY image_grpc_client .
 
-RUN pip3 install --no-cache-dir --upgrade -r /client/requirements.txt
+RUN pip3 install --no-cache-dir --upgrade -r requirements.txt
 
 RUN apt update -y
 

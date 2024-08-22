@@ -2,23 +2,31 @@ version: '3.7'
 services:
   grpc_server:
     build:
-      context: ./image_grpc_server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: image_grpc_server/Dockerfile
     container_name: grpc_server
     command: python server.py
+    # command: sleep infinity
     volumes:
-      - .:/server
+      - ./image_grpc_server:/server
     ports:
       - 6000:6000
     restart: always
+    networks:
+      - love_network
   grpc_client:
     build:
-      context: ./image_grpc_client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: image_grpc_client/Dockerfile
     container_name: grpc_client
-    command: uvicorn main:app --reload
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8010
     volumes:
-      - .:/client
+      - ./image_grpc_client:/client
     ports:
       - 8010:8010
     restart: always
+    networks:
+      - love_network
+networks: 
+  love_network:
+    driver: bridge
