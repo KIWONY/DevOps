@@ -6,7 +6,8 @@
 그래서 file provisioner에서 script를 복사해서 원격서버에 보낸 후, remote-exec provisioner로 
 해당파일의 권한을 변경하고 실행하는 명령어를 실행한다.
 
-- aws_instance 블럭에서 connection하도록
+- 리소스(aws_instance 등) 블럭에서 connection을 선언하면 해당 리소스의 모든 프로비저너가 선언한 커넥션을 사용한다고 한다.
+- 그래서 나는 provisioner에서 선언하는 것으로 했다.
 
 ### 3. script.sh에 실행하고자 하는 명령어에 -y를 붙여줘야한다. 
 

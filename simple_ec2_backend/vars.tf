@@ -5,5 +5,5 @@ variable "AWS_REGION" {
 }
 
 variable "PRIVATE_KEY" {
-    default = "line_server_download_key.pem"
+    default = "keyfile_2024-10-08.pem"
 }
