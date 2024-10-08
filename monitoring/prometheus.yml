@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 15s 
+  external_labels:
+    monitor: 'ec2_monitor'
+
+scrape_configs:
+  - job_name: 'node_exporter'
+    scrape_interval: 5s
+    static_configs:
+     - targets: ['prometheus:9000']
+  - job_name : 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+     - targets: ['cadviser:9000']

@@ -1,0 +1,51 @@
+version: '3.7'
+services:
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    restart: always
+    depends_on:
+      - cadviser
+    networks:
+      - monitoring_network
+      
+  cadviser:
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
+    container_name: cadviser
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    ports:
+      - 9000:8080
+    restart: always
+    networks:
+      - monitoring_network
+    privileged: true
+
+  grafana:
+    image: grafana/grafana:10.0.1
+    container_name: grafana
+    ports: 
+      - 3000:3000
+    volumes:
+      - ./grafana_volume:/var/lib/grafana
+    user: root
+    restart: always
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring_network
+  
+networks:
+  monitoring_network:
+    driver: bridge
