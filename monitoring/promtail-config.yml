@@ -1,0 +1,41 @@
+server:
+  http_listen_address: 0.0.0.0
+  http_listen_port: 9080
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push    ## 여기서 loki에 로그를 전송하는 것을 정의 
+
+scrape_configs:
+  - job_name: system    ## system 로그수집
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: varlogs
+        __path__: /var/log/*log     ## /var/log/syslog나 /var/log/messages 같은 시스템 로그 파일들이 포함
+
+  - job_name: containers
+    ## docker service discovery를 설정하여 동적으로 컨테이너 탐지하도록 설정 (docker_sd_config)
+    ## Docker 데몬의 소켓(unix:///var/run/docker.sock)을 통해 컨테이너 정보를 주기적으로 조회
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock 
+        refresh_interval: 5s
+
+    relabel_configs:
+      ## 로그 수집 시에 필요한 정보를 라벨로 구조화하여, 시각화도구에서 쉽게 사용하도록
+
+      ## 컨테이너 기준 
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.*)'
+        target_label: 'container'     ## Grafana에서 특정 컨테이너의 로그를 조회할 때 사용 
+      
+      ## 로그 시스템 타입 기준 stdout,stderr
+      - source_labels: ['__meta_docker_container_log_stream']
+        target_label: 'logstream'
+
+      ## 어플리케이션 or 서비스 이름 기준 (하나의 서비스에 여러개의 컨테이너가 실행되고 있을 경우 )
+      - source_labels: ['__meta_docker_container_label_logging_jobname']
+        target_label: 'job'
