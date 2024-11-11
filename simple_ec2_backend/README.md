@@ -1,3 +1,5 @@
+# Don't worry. The AWS access key and secret key have been deactivated.
+
 # 놓쳐서 해맸던 부분 
 ### 1. api_route를 지정 하지않아서  네트워크 트래픽이 라우팅 되지 않고 있었다. 
 
