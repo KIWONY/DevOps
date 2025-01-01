@@ -1,0 +1,35 @@
+.
+├── demo
+│   ├── .gitattributes
+│   ├── .gitignore
+│   ├── .vscode
+│   │   └── NEWLY_CREATED_BY_SPRING_INITIALIZR
+│   ├── Dockerfile
+│   ├── HELP.md
+│   ├── build.gradle
+│   ├── gradle
+│   │   └── wrapper
+│   │       ├── gradle-wrapper.jar
+│   │       └── gradle-wrapper.properties
+│   ├── gradlew
+│   ├── gradlew.bat
+│   ├── settings.gradle
+│   └── src
+│       ├── main
+│       │   ├── java
+│       │   │   └── com
+│       │   │       └── spring_test_app
+│       │   │           └── demo
+│       │   │               ├── DemoApplication.java
+│       │   │               └── controller
+│       │   │                   └── HelloController.java
+│       │   └── resources
+│       │       └── application.properties
+│       └── test
+│           └── java
+│               └── com
+│                   └── spring_test_app
+│                       └── demo
+└── structure.txt
+
+17 directories, 15 files
